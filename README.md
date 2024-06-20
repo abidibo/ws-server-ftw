@@ -1,7 +1,9 @@
 # ws-server-ftw
 
-[![Build Status](https://travis-ci.com/abidibo/ws-server.svg?branch=master)](https://travis-ci.com/abidibo/ws-server)
+[![Build Status](https://app.travis-ci.com/abidibo/ws-server.svg?token=fp5hqwJQgwHKLpsjsZ3L&branch=master)](https://travis-ci.org/abidibo/ws-server)
 [![Coverage Status](https://coveralls.io/repos/github/abidibo/ws-server/badge.svg?branch=master)](https://coveralls.io/github/abidibo/ws-server?branch=master)
+
+
 
 > Mock websocket endpoints with ease
 
