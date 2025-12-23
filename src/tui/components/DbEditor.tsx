@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Box, Text, useInput } from 'ink'
 import Config from './Config.js'
+import { highlightJson } from '../utils/json-highlighter.js'
 
 interface DbEditorProps {
   dbContent: string
@@ -10,18 +11,28 @@ interface DbEditorProps {
 
 export const DbEditor: React.FC<DbEditorProps> = ({ dbContent, maxHeight, isFocused }) => {
   const [scrollOffset, setScrollOffset] = useState(0)
-  let displayContent = dbContent
-  let lineCount = 0
 
-  try {
-    const parsed = JSON.parse(dbContent)
-    displayContent = JSON.stringify(parsed, null, 2)
-  } catch (e) {
-    // Not valid JSON, display as is
-  }
+  // Memoize the highlighted content - only recompute when dbContent changes
+  const { highlightedLines, lineCount } = useMemo(() => {
+    let displayContent = dbContent
 
-  const lines = displayContent.split('\n')
-  lineCount = lines.length
+    try {
+      const parsed = JSON.parse(dbContent)
+      displayContent = JSON.stringify(parsed, null, 2)
+    } catch (e) {
+      // Not valid JSON, display as is
+    }
+
+    // Apply syntax highlighting
+    const highlighted = highlightJson(displayContent)
+    const lines = highlighted.split('\n')
+
+    return {
+      highlightedLines: lines,
+      lineCount: lines.length
+    }
+  }, [dbContent])
+
   const visibleAreaHeight = maxHeight > 2 ? maxHeight - 2 : 0
 
   useInput((input, key) => {
@@ -38,7 +49,12 @@ export const DbEditor: React.FC<DbEditorProps> = ({ dbContent, maxHeight, isFocu
     setScrollOffset(0)
   }, [dbContent])
 
-  const visibleLines = lines.slice(scrollOffset, scrollOffset + visibleAreaHeight).join('\n')
+  // Memoize the visible lines - only recompute when scroll position or content changes
+  const visibleLines = useMemo(() => {
+    return highlightedLines
+      .slice(scrollOffset, scrollOffset + visibleAreaHeight)
+      .join('\n')
+  }, [highlightedLines, scrollOffset, visibleAreaHeight])
 
   return (
     <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor} flexGrow={1} height={maxHeight}>

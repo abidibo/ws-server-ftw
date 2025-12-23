@@ -2,13 +2,14 @@
   "api": {
     "v1": {
       "ui": {
-        "modalIsOpen": true,
+        "modalIsOpen": false,
         "sidebarStyle": "dark",
         "notification": {
           "message": "This is a very long notification message designed to test how the user interface handles text that should ideally wrap or be truncated gracefully instead of overflowing its container.",
           "type": "info",
           "timeout": 5000
-        }
+        },
+        "moalIsOpen": false
       },
       "users": [
         {

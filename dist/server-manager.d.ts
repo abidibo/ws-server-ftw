@@ -23,6 +23,10 @@ export declare class ServerManager extends EventEmitter {
     start(): void;
     sendData(connId: number, operation?: DataOperation | null): Promise<void>;
     getConnections(): Connection[];
+    getDbContent(): string;
+    saveDbContent(content: string): void;
+    updateDbValue(path: string, value: any): void;
+    private _setValueByPath;
     stop(): void;
 }
 //# sourceMappingURL=server-manager.d.ts.map

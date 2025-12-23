@@ -11,6 +11,8 @@ export interface ServerState {
     setSelectedIndex: (index: number) => void;
     messages: LogMessage[];
     port: number | null;
+    dbContent: string;
+    setDbContent: (content: string) => void;
 }
 export declare function useServerState(serverManager: ServerManager): ServerState;
 //# sourceMappingURL=use-server-state.d.ts.map

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Box, Text } from 'ink';
-export const ConnectionList = ({ connections, selectedIndex, maxHeight }) => {
+import Config from './Config.js';
+export const ConnectionList = ({ connections, selectedIndex, isFocused }) => {
     if (connections.length === 0) {
-        return (React.createElement(Box, { flexDirection: "column", borderStyle: "round", borderColor: "gray", height: maxHeight },
+        return (React.createElement(Box, { flexDirection: "column", borderStyle: "round", borderColor: isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor, flexGrow: 1 },
             React.createElement(Text, { color: "gray" }, "No active connections")));
     }
-    return (React.createElement(Box, { flexDirection: "column", borderStyle: "round", borderColor: "cyan", height: maxHeight },
+    return (React.createElement(Box, { flexDirection: "column", borderStyle: "round", borderColor: isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor, flexGrow: 1 },
         React.createElement(Box, null,
             React.createElement(Text, { bold: true, color: "cyan" },
                 " Connections (",

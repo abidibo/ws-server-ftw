@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import * as fs from 'fs';
 import { WebSocketServer } from 'ws';
 import { ConnectionRegistry } from './connection-registry.js';
 import { loadDataFromDb, applyOperation } from './data-operations.js';
@@ -58,8 +59,36 @@ export class ServerManager extends EventEmitter {
     getConnections() {
         return this.registry.getAll();
     }
+    getDbContent() {
+        return fs.readFileSync(this.dbPath, 'utf-8');
+    }
+    saveDbContent(content) {
+        fs.writeFileSync(this.dbPath, content, 'utf-8');
+    }
+    updateDbValue(path, value) {
+        const content = this.getDbContent();
+        const db = JSON.parse(content);
+        this._setValueByPath(db, path, value);
+        this.saveDbContent(JSON.stringify(db, null, 2));
+    }
+    _setValueByPath(obj, path, value) {
+        const keys = path.replace(/\[(\w+)\]/g, '.$1').replace(/^\./, '').split('.');
+        let current = obj;
+        for (let i = 0; i < keys.length - 1; i++) {
+            const key = keys[i];
+            if (typeof current[key] === 'undefined') {
+                current[key] = {};
+            }
+            current = current[key];
+        }
+        current[keys[keys.length - 1]] = value;
+    }
     stop() {
         if (this.wss) {
+            // Terminate all active connections to allow the process to exit
+            for (const conn of this.registry.getAll()) {
+                conn.ws.terminate();
+            }
             this.wss.close();
             this.emit('server:stopped');
         }
