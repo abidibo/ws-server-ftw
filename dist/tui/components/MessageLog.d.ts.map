@@ -1,0 +1,1 @@
+{"version":3,"file":"MessageLog.d.ts","sourceRoot":"","sources":["../../../src/tui/components/MessageLog.tsx"],"names":[],"mappings":"AAAA,OAAO,KAAK,MAAM,OAAO,CAAA;AAEzB,OAAO,EAAE,UAAU,EAAE,MAAM,8BAA8B,CAAA;AAEzD,UAAU,eAAe;IACvB,QAAQ,EAAE,UAAU,EAAE,CAAA;IACtB,SAAS,CAAC,EAAE,MAAM,CAAA;CACnB;AAED,eAAO,MAAM,UAAU,EAAE,KAAK,CAAC,EAAE,CAAC,eAAe,CAqChD,CAAA"}
