@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import { Box, Text } from 'ink'
-import TextInput from 'ink-text-input'
-import { stdinParse } from '../../stdin.js'
+import TextInput from 'ink-text-input' // Commented out due to incompatibility
 import { DataOperation } from '../../data-operations.js'
+import { stdinParse } from '../../stdin.js'
 
 interface CommandInputProps {
   onCommand: (connId: number, operation: DataOperation | null) => void
   selectedConnection: number | undefined
 }
 
-export const CommandInput: React.FC<CommandInputProps> = ({ onCommand, selectedConnection }) => {
-  const [value, setValue] = useState('')
+export const CommandInput: React.FC<CommandInputProps> = ({ selectedConnection, onCommand }) => {
+  const [value, setValue] = useState('') // Commented out as TextInput is disabled
 
-  const handleSubmit = () => {
+  const handleSubmit = () => { // Commented out as TextInput is disabled
     if (!selectedConnection) return
 
     if (!value.trim()) {
@@ -60,8 +60,7 @@ export const CommandInput: React.FC<CommandInputProps> = ({ onCommand, selectedC
         <Text bold color="yellow"> Command (Target: Connection {selectedConnection}) </Text>
       </Box>
       <Box paddingLeft={1}>
-        <Text color="gray">▶ </Text>
-        <TextInput
+        <TextInput // Commented out due to incompatibility
           value={value}
           onChange={setValue}
           onSubmit={handleSubmit}

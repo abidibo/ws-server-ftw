@@ -41,9 +41,8 @@ parser.add_argument('-i', '--input', {
 
 const args = parser.parse_args()
 
-// Create and start server
+// Create server
 const serverManager = new ServerManager(args.db, args.port)
-serverManager.start()
 
 // Render TUI
-render(React.createElement(App, { serverManager }))
+render(React.createElement(App, { serverManager, onReady: () => serverManager.start() }))

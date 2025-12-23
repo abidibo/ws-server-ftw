@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, useInput, useApp, useStdout } from 'ink'
 import { ServerManager } from '../../server-manager.js'
 import { useServerState } from '../hooks/use-server-state.js'
@@ -10,18 +10,23 @@ import { DataOperation } from '../../data-operations.js'
 
 interface AppProps {
   serverManager: ServerManager
+  onReady?: () => void
 }
 
-export const App: React.FC<AppProps> = ({ serverManager }) => {
+export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
   const { exit } = useApp()
   const { stdout } = useStdout()
   const { connections, selectedIndex, setSelectedIndex, messages, port } = useServerState(serverManager)
 
   const selectedConnection = connections[selectedIndex]
 
+  useEffect(() => {
+    onReady?.()
+  }, [])
+
   // Get terminal dimensions
-  const terminalHeight = stdout?.rows || 24
-  const terminalWidth = stdout?.columns || 80
+  const terminalHeight = stdout?.rows ?? 24
+  const terminalWidth = stdout?.columns ? stdout.columns - 10 : 80
 
   // Calculate heights for different sections
   const statusBarHeight = 3 // Border + content
@@ -51,7 +56,7 @@ export const App: React.FC<AppProps> = ({ serverManager }) => {
   }
 
   return (
-    <Box flexDirection="column" height={terminalHeight} width={terminalWidth}>
+    <Box flexDirection="column" flexGrow={1}>
       <StatusBar
         port={port}
         connectionCount={connections.length}

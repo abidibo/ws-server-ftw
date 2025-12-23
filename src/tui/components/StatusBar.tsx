@@ -24,6 +24,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({ port, connectionCount, sel
           <Text>{selectedConnection}</Text>
         </Box>
       )}
+      <Box flexGrow={1} />
       <Box paddingLeft={1} paddingRight={1}>
         <Text color="gray">Press q to quit | ↑↓ to navigate</Text>
       </Box>
