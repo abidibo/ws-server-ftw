@@ -72,7 +72,7 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
   }
 
   return (
-    <Box flexDirection="column" flexGrow={1} height={30}>
+    <Box flexDirection="column" flexGrow={1}>
       <StatusBar
         port={port}
         connectionCount={connections.length}
