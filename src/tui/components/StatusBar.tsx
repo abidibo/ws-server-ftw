@@ -1,5 +1,6 @@
 import React from 'react'
 import { Box, Text } from 'ink'
+import Config from './Config.js'
 
 interface StatusBarProps {
   port: number | null
@@ -10,10 +11,9 @@ interface StatusBarProps {
 
 export const StatusBar: React.FC<StatusBarProps> = ({ port, connectionCount, selectedConnection, focusedPanel }) => {
   return (
-    <Box borderStyle="round" borderColor="green">
+    <Box borderStyle="round" borderColor={Config.ui.statusBarBorderColor}>
       <Box paddingLeft={1} paddingRight={2}>
-        <Text color="green">📦</Text>
-        <Text color="red">ws-server v{process.env.npm_package_version}</Text>
+        <Text color="red">WS-SERVER v{process.env.npm_package_version}</Text>
       </Box>
       <Box paddingLeft={1} paddingRight={2}>
         <Text color="green">⚡ Server: </Text>
@@ -31,7 +31,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({ port, connectionCount, sel
       )}
       <Box flexGrow={1} />
       <Box paddingLeft={1} paddingRight={2}>
-        <Text color="magenta">👁️ Focus: </Text>
+        <Text color="magenta">Focus: </Text>
         <Text>{focusedPanel.charAt(0).toUpperCase() + focusedPanel.slice(1)}</Text>
       </Box>
       <Box paddingLeft={1} paddingRight={1}>

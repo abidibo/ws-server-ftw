@@ -3,6 +3,7 @@ import { Box, Text } from 'ink'
 import TextInput from 'ink-text-input'
 import { stdinParse } from '../../stdin.js'
 import { DataOperation } from '../../data-operations.js'
+import Config from './Config.js'
 
 interface CommandInputProps {
   onCommand: (connId: number, operation: DataOperation | null) => void
@@ -63,14 +64,14 @@ export const CommandInput: React.FC<CommandInputProps> = ({ onCommand, onDbComma
 
   if (!selectedConnection) {
     return (
-      <Box borderStyle="round" borderColor="gray">
+      <Box borderStyle="round" borderColor={isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor}>
         <Text color="gray">No connection selected</Text>
       </Box>
     )
   }
 
   return (
-    <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? 'green' : 'yellow'}>
+    <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor}>
       <Box>
         <Text bold color="yellow"> Command (Target: Connection {selectedConnection}) </Text>
       </Box>

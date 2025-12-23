@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Text } from 'ink'
 import { Connection } from '../../connection-registry.js'
+import Config from './Config.js'
 
 interface ConnectionListProps {
   connections: Connection[]
@@ -11,14 +12,14 @@ interface ConnectionListProps {
 export const ConnectionList: React.FC<ConnectionListProps> = ({ connections, selectedIndex, isFocused }) => {
   if (connections.length === 0) {
     return (
-      <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? 'green' : 'gray'} flexGrow={1}>
+      <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor} flexGrow={1}>
         <Text color="gray">No active connections</Text>
       </Box>
     )
   }
 
   return (
-    <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? 'green' : 'cyan'} flexGrow={1}>
+    <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor} flexGrow={1}>
       <Box>
         <Text bold color="cyan"> Connections ({connections.length}) </Text>
       </Box>

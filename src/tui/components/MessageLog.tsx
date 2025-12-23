@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Text, useInput } from 'ink'
 import { LogMessage } from '../hooks/use-server-state.js'
+import Config from './Config.js'
 
 interface MessageLogProps {
   messages: LogMessage[]
@@ -49,7 +50,7 @@ export const MessageLog: React.FC<MessageLogProps> = ({ messages, maxHeight = 10
   }
 
   return (
-    <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? 'green' : 'magenta'} height={maxHeight}>
+    <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor} height={maxHeight} paddingRight={2}>
       <Box>
         <Text bold color="magenta"> Message Log ({messages.length}) </Text>
       </Box>
@@ -58,9 +59,11 @@ export const MessageLog: React.FC<MessageLogProps> = ({ messages, maxHeight = 10
           <Text color="gray">No messages yet</Text>
         ) : (
           visibleMessages.map((msg, idx) => (
-            <Box key={idx}>
-              <Text color="gray">[{msg.timestamp.toLocaleTimeString()}]</Text>
-              <Text color={getMessageColor(msg.type)}> {msg.text}</Text>
+            <Box key={idx} flexDirection="row">
+              <Box minWidth={13}>
+                <Text color="gray">[{msg.timestamp.toLocaleTimeString()}]</Text>
+              </Box>
+              <Text color={getMessageColor(msg.type)} wrap='wrap'> {msg.text}</Text>
             </Box>
           ))
         )}

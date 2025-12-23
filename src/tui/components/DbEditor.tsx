@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Text, useInput } from 'ink'
+import Config from './Config.js'
 
 interface DbEditorProps {
   dbContent: string
@@ -40,7 +41,7 @@ export const DbEditor: React.FC<DbEditorProps> = ({ dbContent, maxHeight, isFocu
   const visibleLines = lines.slice(scrollOffset, scrollOffset + visibleAreaHeight).join('\n')
 
   return (
-    <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? 'green' : 'blue'} flexGrow={1} height={maxHeight}>
+    <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor} flexGrow={1} height={maxHeight}>
       <Box>
         <Text bold color="blue"> DB Content (db.json) </Text>
       </Box>
