@@ -14,6 +14,8 @@ export interface ServerState {
   setSelectedIndex: (index: number) => void
   messages: LogMessage[]
   port: number | null
+  dbContent: string
+  setDbContent: (content: string) => void
 }
 
 export function useServerState(serverManager: ServerManager): ServerState {
@@ -21,12 +23,16 @@ export function useServerState(serverManager: ServerManager): ServerState {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [messages, setMessages] = useState<LogMessage[]>([])
   const [port, setPort] = useState<number | null>(null)
+  const [dbContent, setDbContent] = useState('')
 
   const addMessage = (type: LogMessage['type'], text: string) => {
     setMessages(prev => [...prev, { type, text, timestamp: new Date() }].slice(-100))
   }
 
   useEffect(() => {
+    // Initial DB content
+    setDbContent(serverManager.getDbContent())
+
     // Server started
     const onServerStarted = (p: number) => {
       setPort(p)
@@ -90,6 +96,8 @@ export function useServerState(serverManager: ServerManager): ServerState {
     selectedIndex,
     setSelectedIndex,
     messages,
-    port
+    port,
+    dbContent,
+    setDbContent
   }
 }

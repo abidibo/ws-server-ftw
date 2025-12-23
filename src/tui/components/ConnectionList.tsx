@@ -5,20 +5,20 @@ import { Connection } from '../../connection-registry.js'
 interface ConnectionListProps {
   connections: Connection[]
   selectedIndex: number
-  maxHeight?: number
+  isFocused: boolean
 }
 
-export const ConnectionList: React.FC<ConnectionListProps> = ({ connections, selectedIndex, maxHeight }) => {
+export const ConnectionList: React.FC<ConnectionListProps> = ({ connections, selectedIndex, isFocused }) => {
   if (connections.length === 0) {
     return (
-      <Box flexDirection="column" borderStyle="round" borderColor="gray" height={maxHeight}>
+      <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? 'green' : 'gray'} flexGrow={1}>
         <Text color="gray">No active connections</Text>
       </Box>
     )
   }
 
   return (
-    <Box flexDirection="column" borderStyle="round" borderColor="cyan" height={maxHeight}>
+    <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? 'green' : 'cyan'} flexGrow={1}>
       <Box>
         <Text bold color="cyan"> Connections ({connections.length}) </Text>
       </Box>

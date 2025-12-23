@@ -3,22 +3,65 @@
     "v1": {
       "ui": {
         "modalIsOpen": true,
-        "sidebarStyle": "dark"
+        "sidebarStyle": "dark",
+        "notification": {
+          "message": "This is a very long notification message designed to test how the user interface handles text that should ideally wrap or be truncated gracefully instead of overflowing its container.",
+          "type": "info",
+          "timeout": 5000
+        }
       },
       "users": [
         {
-          "username": "admin",
-          "email": "admin@example.com",
+          "username": "administrator_long_username",
+          "email": "administrator_long_username@example.com",
           "id": 1,
-          "role": "admin"
+          "role": "admin",
+          "profile": {
+            "fullName": "Senior Administrator Person",
+            "bio": "This is the biography of the administrator. It contains a rather long sentence that describes their roles and responsibilities within the system, which is another great test for text overflow and wrapping within the confines of the TUI panels.",
+            "lastLogin": "2025-12-23T10:00:00Z"
+          }
         },
         {
           "username": "guest",
           "email": "guest@example.com",
           "id": 2,
-          "role": "guest"
+          "role": "guest",
+          "profile": null
+        },
+        {
+          "username": "testuser_another_long_one",
+          "email": "testuser_another_long_one@example.com",
+          "id": 3,
+          "role": "user",
+          "profile": {
+            "fullName": "Test User McTesterson",
+            "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            "lastLogin": "2025-12-23T11:30:00Z"
+          }
+        },
+        {
+          "username": "anotheruser",
+          "email": "anotheruser@example.com",
+          "id": 4,
+          "role": "user",
+          "profile": null
         }
-      ]
+      ],
+      "settings": {
+        "featureFlags": {
+          "newDashboard": true,
+          "betaFeatures": false,
+          "enableAnalytics": true,
+          "superSecretAdminPanel": false
+        },
+        "theme": "dark_mode_enhanced",
+        "language": "en_US",
+        "performance": {
+          "renderDebounce": 100,
+          "maxConnections": 50
+        }
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events'
+import * as fs from 'fs'
 import WebSocket, { WebSocketServer } from 'ws'
 import { ConnectionRegistry, Connection } from './connection-registry.js'
 import { loadDataFromDb, applyOperation, DataOperation } from './data-operations.js'
@@ -96,8 +97,40 @@ export class ServerManager extends EventEmitter {
     return this.registry.getAll()
   }
 
+  getDbContent(): string {
+    return fs.readFileSync(this.dbPath, 'utf-8')
+  }
+
+  saveDbContent(content: string): void {
+    fs.writeFileSync(this.dbPath, content, 'utf-8')
+  }
+
+  updateDbValue(path: string, value: any): void {
+    const content = this.getDbContent()
+    const db = JSON.parse(content)
+    this._setValueByPath(db, path, value)
+    this.saveDbContent(JSON.stringify(db, null, 2))
+  }
+
+  private _setValueByPath(obj: any, path: string, value: any) {
+    const keys = path.replace(/\[(\w+)\]/g, '.$1').replace(/^\./, '').split('.')
+    let current = obj
+    for (let i = 0; i < keys.length - 1; i++) {
+      const key = keys[i]
+      if (typeof current[key] === 'undefined') {
+        current[key] = {}
+      }
+      current = current[key]
+    }
+    current[keys[keys.length - 1]] = value
+  }
+
   stop(): void {
     if (this.wss) {
+      // Terminate all active connections to allow the process to exit
+      for (const conn of this.registry.getAll()) {
+        conn.ws.terminate()
+      }
       this.wss.close()
       this.emit('server:stopped')
     }
