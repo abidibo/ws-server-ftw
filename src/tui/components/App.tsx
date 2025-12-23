@@ -51,7 +51,8 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
   const availableHeight = terminalHeight - statusBarHeight
   const rightPanelHeight = availableHeight - 2 // -2 for borders
 
-  // Keyboard navigation
+  // Global keyboard navigation for Tab key only
+  // Note: Arrow keys are handled by individual focused components
   useInput((input: string, key: any) => {
     if (key.tab) {
       const panels: FocusedPanel[] = ['connections', 'command', 'db', 'log']
@@ -59,17 +60,7 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
       const nextIndex = (currentIndex + 1) % panels.length
       setFocusedPanel(panels[nextIndex])
     }
-
-    if (focusedPanel === 'connections') {
-      if (key.upArrow && selectedIndex > 0) {
-        setSelectedIndex(selectedIndex - 1)
-      }
-
-      if (key.downArrow && selectedIndex < connections.length - 1) {
-        setSelectedIndex(selectedIndex + 1)
-      }
-    }
-  })
+  }, { isActive: true })
 
   const handleCommand = (connId: number, operation: DataOperation | null) => {
     serverManager.sendData(connId, operation)
@@ -81,7 +72,7 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
   }
 
   return (
-    <Box flexDirection="column" flexGrow={1}>
+    <Box flexDirection="column" flexGrow={1} height={30}>
       <StatusBar
         port={port}
         connectionCount={connections.length}
@@ -94,6 +85,7 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
           <ConnectionList
             connections={connections}
             selectedIndex={selectedIndex}
+            setSelectedIndex={setSelectedIndex}
             isFocused={focusedPanel === 'connections'}
           />
           <CommandInput

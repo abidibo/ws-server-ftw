@@ -1,15 +1,25 @@
 import React from 'react'
-import { Box, Text } from 'ink'
+import { Box, Text, useInput } from 'ink'
 import { Connection } from '../../connection-registry.js'
 import Config from './Config.js'
 
 interface ConnectionListProps {
   connections: Connection[]
   selectedIndex: number
+  setSelectedIndex: (index: number) => void
   isFocused: boolean
 }
 
-export const ConnectionList: React.FC<ConnectionListProps> = ({ connections, selectedIndex, isFocused }) => {
+export const ConnectionList: React.FC<ConnectionListProps> = ({ connections, selectedIndex, setSelectedIndex, isFocused }) => {
+  // Handle arrow key navigation when focused
+  useInput((input, key) => {
+    if (key.upArrow && selectedIndex > 0) {
+      setSelectedIndex(selectedIndex - 1)
+    }
+    if (key.downArrow && selectedIndex < connections.length - 1) {
+      setSelectedIndex(selectedIndex + 1)
+    }
+  }, { isActive: isFocused })
   if (connections.length === 0) {
     return (
       <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor} flexGrow={1}>
