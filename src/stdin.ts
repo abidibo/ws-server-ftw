@@ -1,37 +1,40 @@
-const term = require('terminal-kit').terminal
+export interface ParsedData {
+  merge?: boolean
+  deepmerge?: boolean
+  append?: boolean
+  obj?: Record<string, unknown>
+  arr?: unknown[]
+  data?: unknown
+}
 
-function stdinParse (d) {
-  let input = d.toString().trim()
-  let data
+export function stdinParse(d: Buffer | { toString(): string }): ParsedData | undefined {
+  const input = d.toString().trim()
+  let data: ParsedData | undefined
+
   try {
     if (/^merge /.test(input)) {
-      // object to merge
       data = {
         merge: true,
         obj: JSON.parse(input.replace(/^merge /, ''))
       }
     } else if (/^deepmerge /.test(input)) {
-      // object to merge
       data = {
         deepmerge: true,
         obj: JSON.parse(input.replace(/^deepmerge /, ''))
       }
     } else if (/^append /.test(input)) {
-      // array to append
       data = {
         append: true,
         arr: JSON.parse(input.replace(/^append /, ''))
       }
     } else if (input) {
-      // new data to send
       data = {
         data: JSON.parse(input)
       }
     }
   } catch (e) {
-    term.error.red(`${e}. Sending original data.`)
+    console.error(`${e}. Sending original data.`)
   }
+
   return data
 }
-
-module.exports.stdinParse = stdinParse
