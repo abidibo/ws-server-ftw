@@ -1,5 +1,5 @@
 {
-  "name": "ws-server-ftw",
+  "name": "@abidibo/ws-server-ftw",
   "version": "0.2.0",
   "description": "Mock websocket endpoints with a beautiful TUI",
   "type": "module",
@@ -23,8 +23,9 @@
     "build": "tsc",
     "dev": "tsx src/cli.ts",
     "test": "NODE_ENV=test mocha -r tsx 'test/**/*.test.ts'",
-    "coverage": "npm run test && nyc report --reporter=text-lcov | coveralls",
-    "coverage-html": "npm run test && nyc report --reporter=html",
+    "test:coverage": "NODE_ENV=test nyc mocha -r tsx 'test/**/*.test.ts'",
+    "coverage": "npm run test:coverage && nyc report --reporter=text-lcov | coveralls",
+    "coverage-html": "npm run test:coverage && nyc report --reporter=html",
     "prepublishOnly": "npm run build"
   },
   "repository": {

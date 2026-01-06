@@ -1,11 +1,11 @@
-# ws-server-ftw
+# @abidibo/ws-server-ftw
 
 [![Build Status](https://app.travis-ci.com/abidibo/ws-server.svg?token=fp5hqwJQgwHKLpsjsZ3L&branch=master)](https://travis-ci.org/abidibo/ws-server)
 [![Coverage Status](https://coveralls.io/repos/github/abidibo/ws-server/badge.svg?branch=master)](https://coveralls.io/github/abidibo/ws-server?branch=master)
 
 > Mock websocket endpoints with a beautiful Terminal User Interface (TUI)
 
-ws-server-ftw is a powerful development tool that lets you easily mock WebSocket APIs with a rich, interactive terminal interface. Inspired by [json-server](https://github.com/typicode/json-server), it provides real-time WebSocket mocking with visual feedback and control.
+@abidibo/ws-server-ftw is a powerful development tool that lets you easily mock WebSocket APIs with a rich, interactive terminal interface. Inspired by [json-server](https://github.com/typicode/json-server), it provides real-time WebSocket mocking with visual feedback and control.
 
 ## Features
 
@@ -18,9 +18,9 @@ ws-server-ftw is a powerful development tool that lets you easily mock WebSocket
 
 # Install
 
-[![NPM](https://nodei.co/npm/ws-server-ftw.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ws-server-ftw/)
+[![NPM](https://nodei.co/npm/@abidibo/ws-server-ftw.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@abidibo/ws-server-ftw/)
 
-    npm install ws-server-ftw --save-dev
+    npm install @abidibo/ws-server-ftw --save-dev
 
 # Getting Started
 
@@ -124,7 +124,7 @@ The currently focused panel is highlighted with a bright red border, while unfoc
 
 ## How It Works
 
-ws-server-ftw serves data from a JSON or JavaScript file through WebSocket connections. The server uses path-based routing:
+@abidibo/ws-server-ftw serves data from a JSON or JavaScript file through WebSocket connections. The server uses path-based routing:
 
 - Path `/foo/bar` serves `db['foo']['bar']` from your database file
 - Path `/api/v1/users` serves `db['api']['v1']['users']`
@@ -333,4 +333,4 @@ MIT
 
 - [GitHub Repository](https://github.com/abidibo/ws-server)
 - [Issues](https://github.com/abidibo/ws-server/issues)
-- [NPM Package](https://www.npmjs.com/package/ws-server-ftw)
+- [NPM Package](https://www.npmjs.com/package/@abidibo/ws-server-ftw)

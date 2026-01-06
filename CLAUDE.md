@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-ws-server-ftw is a development tool for mocking WebSocket APIs with an interactive Terminal User Interface (TUI). It serves data from JSON or JavaScript files through WebSocket connections with path-based routing, similar to how json-server works for REST APIs.
+@abidibo/ws-server-ftw is a development tool for mocking WebSocket APIs with an interactive Terminal User Interface (TUI). It serves data from JSON or JavaScript files through WebSocket connections with path-based routing, similar to how json-server works for REST APIs.
 
 ## Development Commands
 
