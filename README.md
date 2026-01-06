@@ -3,7 +3,8 @@
 [![Build Status](https://app.travis-ci.com/abidibo/ws-server.svg?token=fp5hqwJQgwHKLpsjsZ3L&branch=master)](https://travis-ci.org/abidibo/ws-server)
 [![Coverage Status](https://coveralls.io/repos/github/abidibo/ws-server/badge.svg?branch=master)](https://coveralls.io/github/abidibo/ws-server?branch=master)
 
-
+> [!IMPORTANT]
+> This package is deprecated, please use [@abidibo/ws-server-ftw](https://github.com/abidibo/ws-server-ftw)
 
 > Mock websocket endpoints with ease
 
@@ -15,7 +16,7 @@ ws-server was developed in order to allow a developer to easily mock websocket a
 
 [![NPM](https://nodei.co/npm/ws-server-ftw.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ws-server-ftw/)
 
-    $ npm install ws-server-ftw --save-dev
+    npm install ws-server-ftw --save-dev
 
 # Getting started
 
@@ -36,7 +37,7 @@ Incoming messages will be printed to the console.
 
 ## Start the cli
 
-    $ ws-server -i mydb.json
+    ws-server -i mydb.json
 
 Available options:
 
@@ -81,7 +82,6 @@ Given the following `db.json`:
       }
     }
 
-
 A socket client connected to the path `ws://localhost:9704/api/v1/` will receive this data:
 
      {
@@ -104,8 +104,6 @@ A socket client connected to the path `ws://localhost:9704/api/v1/` will receive
         }
       ]
     }
-
-
 
 Now hit Enter to send the data again.
 
@@ -130,7 +128,6 @@ Entering `merge {"ui": {"foo": "bar"}}` and pressing Enter the client will recei
         }
       ]
     }
-
 
 Entering `deepmerge {"ui": {"foo": "bar"}}` and pressing Enter the client will receive:
 
@@ -157,7 +154,6 @@ Entering `deepmerge {"ui": {"foo": "bar"}}` and pressing Enter the client will r
     }
 
 Entering `deepmerge {"users": [{"username": "foo"}]}` and pressing Enter, the client will receive:
-
 
     {
       "ui": {
