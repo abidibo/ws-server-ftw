@@ -20,7 +20,7 @@ ws-server-ftw is a powerful development tool that lets you easily mock WebSocket
 
 [![NPM](https://nodei.co/npm/ws-server-ftw.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/ws-server-ftw/)
 
-    $ npm install ws-server-ftw --save-dev
+    npm install ws-server-ftw --save-dev
 
 # Getting Started
 
@@ -29,7 +29,7 @@ ws-server-ftw is a powerful development tool that lets you easily mock WebSocket
 Start the TUI application with your mock database file:
 
 ```bash
-$ ws-server -i mydb.json
+ws-server -i mydb.json
 ```
 
 The interactive terminal interface will launch, showing real-time connection status, database content, and message logs.
@@ -55,16 +55,19 @@ Optional arguments:
 The terminal interface consists of five main panels:
 
 ### 1. Status Bar (Top)
+
 Displays server status, port number, and database file path.
 
-### 2. Connections List (Left Panel - 25% width)
+### 2. Connections List (Left Panel Top)
+
 - Shows all active WebSocket connections
 - Displays connection ID and path for each client
 - Navigate connections using **↑/↓ arrow keys** when panel is focused
 - Selected connection is highlighted
 - Shows "No connections" when no clients are connected
 
-### 3. Command Input (Middle Panel - 30% width)
+### 3. Command Input (Left Panel Bottom)
+
 Interactive command prompt for sending data to the selected connection. Available commands:
 
 - **`db set <path> <value>`** - Set a value in the database at a specific path
@@ -90,13 +93,15 @@ Interactive command prompt for sending data to the selected connection. Availabl
 
 - **`Enter`** (empty input) - Resend the original data
 
-### 4. DB Content (Middle Panel - 45% width)
+### 4. DB Content (Middle Panel)
+
 - Shows the current database content with **JSON syntax highlighting**
 - Colors: keys (cyan), strings (green), numbers (yellow), booleans (magenta), null (gray)
 - Scroll through large JSON files using **↑/↓ arrow keys** when panel is focused
 - Updates in real-time when database is modified via `db set` commands
 
-### 5. Message Log (Right Panel - ~30% width)
+### 5. Message Log (Right Panel)
+
 - Displays all WebSocket messages in real-time
 - **Outgoing messages** (sent to clients): green "→" indicator
 - **Incoming messages** (received from clients): red "←" indicator
@@ -125,6 +130,7 @@ ws-server-ftw serves data from a JSON or JavaScript file through WebSocket conne
 - Path `/api/v1/users` serves `db['api']['v1']['users']`
 
 When a client connects:
+
 1. The server automatically sends the data for the requested path
 2. The connection appears in the Connections List panel
 3. You can send additional data using commands in the Command Input panel
@@ -168,7 +174,7 @@ Create `db.json`:
 ## 2. Start the Server
 
 ```bash
-$ ws-server -i db.json
+ws-server -i db.json
 ```
 
 The TUI launches showing your database with syntax highlighting in the DB Content panel.
@@ -205,18 +211,22 @@ The connection appears in the **Connections List** panel, and the message is log
 ## 4. Send Commands
 
 ### Resend Original Data
+
 1. Use **Tab** to focus the Command Input panel
 2. Select the connection (if not already selected)
 3. Press **Enter** (empty input)
 4. The original data is sent again
 
 ### Merge Data (Shallow)
+
 Enter in the Command Input:
+
 ```
 merge {"ui": {"foo": "bar"}}
 ```
 
 Client receives (note: entire `ui` object is replaced):
+
 ```json
 {
   "ui": {
@@ -227,12 +237,15 @@ Client receives (note: entire `ui` object is replaced):
 ```
 
 ### Deep Merge Data
+
 Enter in the Command Input:
+
 ```
 deepmerge {"ui": {"foo": "bar"}}
 ```
 
 Client receives (note: properties are merged, not replaced):
+
 ```json
 {
   "ui": {
@@ -245,12 +258,15 @@ Client receives (note: properties are merged, not replaced):
 ```
 
 ### Append to Array
+
 Enter in the Command Input:
+
 ```
 deepmerge {"users": [{"username": "foo", "id": 3}]}
 ```
 
 Client receives:
+
 ```json
 {
   "ui": {...},
@@ -263,7 +279,9 @@ Client receives:
 ```
 
 ### Update Database
+
 Enter in the Command Input:
+
 ```
 db set api.v1.ui.modalIsOpen false
 ```
@@ -297,6 +315,7 @@ Contributions are welcome! This project was developed to simplify WebSocket mock
 - **Node.js ESM** - Modern module system
 
 Pull requests are appreciated! Please ensure your code:
+
 - Passes TypeScript compilation (`npm run build`)
 - Follows the existing code style
 - Includes tests for new features
