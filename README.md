@@ -1,6 +1,6 @@
 # @abidibo/ws-server-ftw
 
-[![Build Status](https://app.travis-ci.com/abidibo/ws-server.svg?token=fp5hqwJQgwHKLpsjsZ3L&branch=master)](https://travis-ci.org/abidibo/ws-server)
+[![Build Status](https://app.travis-ci.com/abidibo/ws-server-ftw.svg?token=fp5hqwJQgwHKLpsjsZ3L&branch=master)](https://travis-ci.org/abidibo/ws-server-ftw)
 [![Coverage Status](https://coveralls.io/repos/github/abidibo/ws-server-ftw/badge.svg?branch=master)](https://coveralls.io/github/abidibo/ws-server-ftw?branch=master)
 
 > Mock websocket endpoints with a beautiful Terminal User Interface (TUI)
@@ -333,6 +333,6 @@ MIT
 
 ## Links
 
-- [GitHub Repository](https://github.com/abidibo/ws-server)
-- [Issues](https://github.com/abidibo/ws-server/issues)
+- [GitHub Repository](https://github.com/abidibo/ws-server-ftw)
+- [Issues](https://github.com/abidibo/ws-server-ftw/issues)
 - [NPM Package](https://www.npmjs.com/package/@abidibo/ws-server-ftw)
