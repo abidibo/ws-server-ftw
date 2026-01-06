@@ -27,6 +27,7 @@ export declare class ServerManager extends EventEmitter {
     saveDbContent(content: string): void;
     updateDbValue(path: string, value: any): void;
     private _setValueByPath;
+    closeConnection(connId: number): void;
     stop(): void;
 }
 //# sourceMappingURL=server-manager.d.ts.map

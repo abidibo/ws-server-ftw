@@ -35,7 +35,8 @@ export const App = ({ serverManager, onReady }) => {
     const statusBarHeight = 3; // Border + content
     const availableHeight = terminalHeight - statusBarHeight;
     const rightPanelHeight = availableHeight - 2; // -2 for borders
-    // Keyboard navigation
+    // Global keyboard navigation for Tab key only
+    // Note: Arrow keys are handled by individual focused components
     useInput((input, key) => {
         if (key.tab) {
             const panels = ['connections', 'command', 'db', 'log'];
@@ -43,15 +44,7 @@ export const App = ({ serverManager, onReady }) => {
             const nextIndex = (currentIndex + 1) % panels.length;
             setFocusedPanel(panels[nextIndex]);
         }
-        if (focusedPanel === 'connections') {
-            if (key.upArrow && selectedIndex > 0) {
-                setSelectedIndex(selectedIndex - 1);
-            }
-            if (key.downArrow && selectedIndex < connections.length - 1) {
-                setSelectedIndex(selectedIndex + 1);
-            }
-        }
-    });
+    }, { isActive: true });
     const handleCommand = (connId, operation) => {
         serverManager.sendData(connId, operation);
     };
@@ -59,11 +52,14 @@ export const App = ({ serverManager, onReady }) => {
         serverManager.updateDbValue(path, value);
         setDbContent(serverManager.getDbContent());
     };
+    const handleCloseConnection = (connId) => {
+        serverManager.closeConnection(connId);
+    };
     return (React.createElement(Box, { flexDirection: "column", flexGrow: 1 },
         React.createElement(StatusBar, { port: port, connectionCount: connections.length, selectedConnection: selectedConnection?.id, focusedPanel: focusedPanel }),
         React.createElement(Box, { flexDirection: "row", flexGrow: 1 },
             React.createElement(Box, { flexDirection: "column", width: "30%" },
-                React.createElement(ConnectionList, { connections: connections, selectedIndex: selectedIndex, isFocused: focusedPanel === 'connections' }),
+                React.createElement(ConnectionList, { connections: connections, selectedIndex: selectedIndex, setSelectedIndex: setSelectedIndex, isFocused: focusedPanel === 'connections', onCloseConnection: handleCloseConnection }),
                 React.createElement(CommandInput, { onCommand: handleCommand, onDbCommand: handleDbCommand, selectedConnection: selectedConnection?.id, isFocused: focusedPanel === 'command' })),
             React.createElement(Box, { flexDirection: "column", width: "45%" },
                 React.createElement(DbEditor, { dbContent: dbContent, maxHeight: rightPanelHeight, isFocused: focusedPanel === 'db' })),

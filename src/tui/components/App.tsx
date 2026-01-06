@@ -71,6 +71,10 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
     setDbContent(serverManager.getDbContent())
   }
 
+  const handleCloseConnection = (connId: number) => {
+    serverManager.closeConnection(connId)
+  }
+
   return (
     <Box flexDirection="column" flexGrow={1}>
       <StatusBar
@@ -87,6 +91,7 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
             selectedIndex={selectedIndex}
             setSelectedIndex={setSelectedIndex}
             isFocused={focusedPanel === 'connections'}
+            onCloseConnection={handleCloseConnection}
           />
           <CommandInput
             onCommand={handleCommand}

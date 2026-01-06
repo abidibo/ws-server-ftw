@@ -83,6 +83,13 @@ export class ServerManager extends EventEmitter {
         }
         current[keys[keys.length - 1]] = value;
     }
+    closeConnection(connId) {
+        const conn = this.registry.get(connId);
+        if (conn) {
+            conn.ws.close();
+            // The 'close' event listener will handle cleanup and emit 'connection:close'
+        }
+    }
     stop() {
         if (this.wss) {
             // Terminate all active connections to allow the process to exit
