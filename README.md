@@ -5,7 +5,7 @@
 
 > Mock websocket endpoints with a beautiful Terminal User Interface (TUI)
 
-![screenshot](./screenshot.png)
+![screenshot](./screenshot-v0.2.0.png)
 
 @abidibo/ws-server-ftw is a powerful development tool that lets you easily mock WebSocket APIs with a rich, interactive terminal interface. Inspired by [json-server](https://github.com/typicode/json-server), it provides real-time WebSocket mocking with visual feedback and control.
 
