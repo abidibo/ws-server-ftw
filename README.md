@@ -66,6 +66,7 @@ Displays server status, port number, and database file path.
 - Displays connection ID and path for each client
 - Navigate connections using **↑/↓ arrow keys** when panel is focused
 - Selected connection is highlighted
+- Press **x** or **c** to close the selected connection when panel is focused
 - Shows "No connections" when no clients are connected
 
 ### 3. Command Input (Left Panel Bottom)
@@ -120,6 +121,7 @@ Interactive command prompt for sending data to the selected connection. Availabl
   - In Connections List: Select different connections
   - In DB Content: Scroll through JSON
   - In Message Log: Scroll through message history
+- **x** or **c** - Close the selected connection (when Connections List panel is focused)
 - **r** - Refresh database content from file (when DB Content panel is focused)
 - **q** or **Ctrl+C** - Quit the application
 - **Enter** - Submit command (when Command Input is focused)
