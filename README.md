@@ -100,6 +100,7 @@ Interactive command prompt for sending data to the selected connection. Availabl
 - Shows the current database content with **JSON syntax highlighting**
 - Colors: keys (cyan), strings (green), numbers (yellow), booleans (magenta), null (gray)
 - Scroll through large JSON files using **↑/↓ arrow keys** when panel is focused
+- Press **r** to refresh database content from file when panel is focused
 - Updates in real-time when database is modified via `db set` commands
 
 ### 5. Message Log (Right Panel)
@@ -119,6 +120,7 @@ Interactive command prompt for sending data to the selected connection. Availabl
   - In Connections List: Select different connections
   - In DB Content: Scroll through JSON
   - In Message Log: Scroll through message history
+- **r** - Refresh database content from file (when DB Content panel is focused)
 - **q** or **Ctrl+C** - Quit the application
 - **Enter** - Submit command (when Command Input is focused)
 

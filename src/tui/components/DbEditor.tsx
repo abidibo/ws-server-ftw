@@ -7,9 +7,10 @@ interface DbEditorProps {
   dbContent: string
   maxHeight: number
   isFocused: boolean
+  onRefresh: () => void
 }
 
-export const DbEditor: React.FC<DbEditorProps> = ({ dbContent, maxHeight, isFocused }) => {
+export const DbEditor: React.FC<DbEditorProps> = ({ dbContent, maxHeight, isFocused, onRefresh }) => {
   const [scrollOffset, setScrollOffset] = useState(0)
 
   // Memoize the highlighted content - only recompute when dbContent changes
@@ -42,6 +43,9 @@ export const DbEditor: React.FC<DbEditorProps> = ({ dbContent, maxHeight, isFocu
     if (key.downArrow) {
       setScrollOffset(prev => Math.min(Math.max(0, lineCount - visibleAreaHeight), prev + 1))
     }
+    if (input === 'r') {
+      onRefresh()
+    }
   }, { isActive: isFocused })
 
   // Reset scroll on content change
@@ -60,6 +64,7 @@ export const DbEditor: React.FC<DbEditorProps> = ({ dbContent, maxHeight, isFocu
     <Box flexDirection="column" borderStyle="round" borderColor={isFocused ? Config.ui.focusedPanelBorderColor : Config.ui.panelBorderColor} flexGrow={1} height={maxHeight}>
       <Box>
         <Text bold color="blue"> DB Content (db.json) </Text>
+        {isFocused && <Text color="gray" dimColor> [r: refresh] </Text>}
       </Box>
       <Box flexGrow={1} paddingLeft={1} paddingRight={1} overflowY="hidden">
         <Text>{visibleLines}</Text>

@@ -75,6 +75,10 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
     serverManager.closeConnection(connId)
   }
 
+  const handleRefreshDb = () => {
+    setDbContent(serverManager.getDbContent())
+  }
+
   return (
     <Box flexDirection="column" flexGrow={1}>
       <StatusBar
@@ -102,7 +106,7 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
         </Box>
 
         <Box flexDirection="column" width="45%">
-          <DbEditor dbContent={dbContent} maxHeight={rightPanelHeight} isFocused={focusedPanel === 'db'} />
+          <DbEditor dbContent={dbContent} maxHeight={rightPanelHeight} isFocused={focusedPanel === 'db'} onRefresh={handleRefreshDb} />
         </Box>
 
         <Box flexDirection="column" width="25%">
