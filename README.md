@@ -1,6 +1,6 @@
 # @abidibo/ws-server-ftw
 
-[![Build Status](https://app.travis-ci.com/abidibo/ws-server-ftw.svg?token=fp5hqwJQgwHKLpsjsZ3L&branch=master)](https://travis-ci.org/abidibo/ws-server-ftw)
+[![Build Status](https://github.com/abidibo/ws-server-ftw/actions/workflows/publish.yml/badge.svg)](https://github.com/abidibo/ws-server-ftw/actions)
 [![Coverage Status](https://coveralls.io/repos/github/abidibo/ws-server-ftw/badge.svg?branch=master)](https://coveralls.io/github/abidibo/ws-server-ftw?branch=master)
 
 > Mock websocket endpoints with a beautiful Terminal User Interface (TUI)
