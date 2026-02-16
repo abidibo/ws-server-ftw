@@ -20,7 +20,7 @@
 
 # Install
 
-[![NPM](https://nodei.co/npm/@abidibo/ws-server-ftw.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@abidibo/ws-server-ftw/)
+[![npm version](https://img.shields.io/npm/v/@abidibo/ws-server-ftw)](https://www.npmjs.com/package/@abidibo/ws-server-ftw)
 
     npm install @abidibo/ws-server-ftw --save-dev
 
