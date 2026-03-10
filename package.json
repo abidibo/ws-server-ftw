@@ -1,6 +1,6 @@
 {
   "name": "@abidibo/ws-server-ftw",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Mock websocket endpoints with a beautiful TUI",
   "type": "module",
   "main": "dist/index.js",
