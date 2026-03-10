@@ -6,6 +6,8 @@ export { loadDataFromDb, applyOperation } from './data-operations.js';
 export type { DataOperation, OperationType } from './data-operations.js';
 export { stdinParse } from './stdin.js';
 export type { ParsedData } from './stdin.js';
+export { matchRule, matchJsonPath, findMatchingRule, processResponseTemplate } from './auto-responder.js';
+export type { AutoResponseRule, AutoResponseResult } from './auto-responder.js';
 export { isArray, isObject } from './utils.js';
 export { InvalidFileException } from './exceptions.js';
 export * from './tui/index.js';

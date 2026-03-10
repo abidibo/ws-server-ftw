@@ -4,6 +4,7 @@ interface MessageLogProps {
     messages: LogMessage[];
     maxHeight: number;
     isFocused: boolean;
+    onSearchModeChange?: (active: boolean) => void;
 }
 export declare const MessageLog: React.FC<MessageLogProps>;
 export {};

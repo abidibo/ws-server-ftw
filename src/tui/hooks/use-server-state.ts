@@ -3,7 +3,7 @@ import { ServerManager } from '../../server-manager.js'
 import { Connection } from '../../connection-registry.js'
 
 export interface LogMessage {
-  type: 'success' | 'error' | 'info'
+  type: 'success' | 'error' | 'info' | 'autoResponse'
   text: string
   timestamp: Date
 }
@@ -67,6 +67,13 @@ export function useServerState(serverManager: ServerManager): ServerState {
       addMessage('info', `Received from ${connId}: ${message}`)
     }
 
+    // Auto-response sent
+    const onAutoResponseSent = (connId: number, ruleName: string, data: unknown) => {
+      const dataStr = JSON.stringify(data)
+      const preview = dataStr.length > 100 ? dataStr.substring(0, 100) + '...' : dataStr
+      addMessage('autoResponse', `Auto [${ruleName}] to ${connId}: ${preview}`)
+    }
+
     // Error
     const onError = (connId: number, error: Error) => {
       addMessage('error', `Error on ${connId}: ${error.message}`)
@@ -78,6 +85,7 @@ export function useServerState(serverManager: ServerManager): ServerState {
     serverManager.on('connection:close', onConnectionClose)
     serverManager.on('data:sent', onDataSent)
     serverManager.on('connection:message', onConnectionMessage)
+    serverManager.on('auto-response:sent', onAutoResponseSent)
     serverManager.on('error', onError)
 
     // Cleanup
@@ -87,6 +95,7 @@ export function useServerState(serverManager: ServerManager): ServerState {
       serverManager.removeListener('connection:close', onConnectionClose)
       serverManager.removeListener('data:sent', onDataSent)
       serverManager.removeListener('connection:message', onConnectionMessage)
+      serverManager.removeListener('auto-response:sent', onAutoResponseSent)
       serverManager.removeListener('error', onError)
     }
   }, [serverManager])

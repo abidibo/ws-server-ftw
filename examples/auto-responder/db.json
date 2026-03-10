@@ -1,0 +1,62 @@
+{
+  "chat": {
+    "messages": [],
+    "status": "ready"
+  },
+  "notifications": {
+    "items": [],
+    "unread": 0
+  },
+  "__rules": [
+    {
+      "name": "ping-pong",
+      "match": "exact",
+      "pattern": "ping",
+      "response": { "type": "pong", "timestamp": "{{timestamp}}" }
+    },
+    {
+      "name": "echo",
+      "match": "contains",
+      "pattern": "echo:",
+      "response": { "type": "echo", "original": "{{message}}", "connectionId": "{{connectionId}}" }
+    },
+    {
+      "name": "subscribe",
+      "match": "jsonpath",
+      "pattern": "type=subscribe&channel=*",
+      "response": { "type": "subscribed", "status": "ok", "timestamp": "{{timestamp}}" }
+    },
+    {
+      "name": "auth",
+      "match": "jsonpath",
+      "pattern": "type=auth",
+      "response": { "type": "auth_response", "authenticated": true, "token": "mock-jwt-token-12345", "expiresIn": 3600 }
+    },
+    {
+      "name": "chat-message",
+      "match": "jsonpath",
+      "pattern": "type=message",
+      "path": "/chat",
+      "response": { "type": "message_ack", "status": "delivered", "timestamp": "{{timestamp}}" }
+    },
+    {
+      "name": "slow-query",
+      "match": "jsonpath",
+      "pattern": "type=search",
+      "delay": 1500,
+      "response": { "type": "search_results", "results": [{ "id": 1, "title": "Result 1" }, { "id": 2, "title": "Result 2" }], "total": 2 }
+    },
+    {
+      "name": "error-trigger",
+      "match": "regex",
+      "pattern": "^error\\b",
+      "response": { "type": "error", "code": 500, "message": "Internal server error (mocked)" }
+    },
+    {
+      "name": "heartbeat",
+      "match": "regex",
+      "pattern": "\\{\\s*\"type\"\\s*:\\s*\"heartbeat\"",
+      "response": { "type": "heartbeat_ack", "alive": true }
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import * as fs from 'fs'
 import WebSocket, { WebSocketServer } from 'ws'
 import { ConnectionRegistry, Connection } from './connection-registry.js'
 import { loadDataFromDb, applyOperation, DataOperation } from './data-operations.js'
+import { AutoResponseRule, findMatchingRule, processResponseTemplate } from './auto-responder.js'
 import type { IncomingMessage } from 'http'
 
 export interface ServerManagerEvents {
@@ -10,6 +11,7 @@ export interface ServerManagerEvents {
   'connection:message': (connId: number, message: string) => void
   'connection:close': (connId: number) => void
   'data:sent': (connId: number, data: unknown) => void
+  'auto-response:sent': (connId: number, ruleName: string, data: unknown) => void
   'server:started': (port: number) => void
   'server:stopped': () => void
   'error': (connId: number, error: Error) => void
@@ -31,12 +33,14 @@ export class ServerManager extends EventEmitter {
   private port: number
   private registry: ConnectionRegistry
   private wss: WebSocketServer | null = null
+  private autoResponseRules: AutoResponseRule[] = []
 
   constructor(dbPath: string, port: number) {
     super()
     this.dbPath = dbPath
     this.port = port
     this.registry = new ConnectionRegistry()
+    this.loadAutoResponseRules()
   }
 
   start(): void {
@@ -57,7 +61,11 @@ export class ServerManager extends EventEmitter {
           messagesReceived: conn.messagesReceived + 1,
           lastActivity: new Date()
         })
-        this.emit('connection:message', connId, message.toString())
+        const messageStr = message.toString()
+        this.emit('connection:message', connId, messageStr)
+
+        // Check auto-response rules
+        this.handleAutoResponse(connId, messageStr, conn.path)
       })
 
       // Setup close listener
@@ -130,6 +138,66 @@ export class ServerManager extends EventEmitter {
     if (conn) {
       conn.ws.close()
       // The 'close' event listener will handle cleanup and emit 'connection:close'
+    }
+  }
+
+  getAutoResponseRules(): AutoResponseRule[] {
+    return this.autoResponseRules
+  }
+
+  setAutoResponseRules(rules: AutoResponseRule[]): void {
+    this.autoResponseRules = rules
+  }
+
+  loadAutoResponseRules(): void {
+    try {
+      const content = fs.readFileSync(this.dbPath, 'utf-8')
+      const db = JSON.parse(content)
+      if (db.__rules && Array.isArray(db.__rules)) {
+        this.autoResponseRules = db.__rules
+      } else {
+        this.autoResponseRules = []
+      }
+    } catch {
+      this.autoResponseRules = []
+    }
+  }
+
+  private handleAutoResponse(connId: number, message: string, connectionPath: string): void {
+    if (this.autoResponseRules.length === 0) return
+
+    const match = findMatchingRule(message, this.autoResponseRules, connectionPath)
+    if (!match) return
+
+    const conn = this.registry.get(connId)
+    if (!conn) return
+
+    const responseData = processResponseTemplate(match.response, {
+      message,
+      connectionId: connId
+    })
+
+    const sendResponse = () => {
+      // Connection may have closed during delay
+      const currentConn = this.registry.get(connId)
+      if (!currentConn || currentConn.ws.readyState !== WebSocket.OPEN) return
+
+      try {
+        currentConn.ws.send(JSON.stringify(responseData))
+        this.registry.updateMetadata(connId, {
+          messagesSent: currentConn.messagesSent + 1,
+          lastActivity: new Date()
+        })
+        this.emit('auto-response:sent', connId, match.rule.name || 'unnamed', responseData)
+      } catch (e) {
+        this.emit('error', connId, e as Error)
+      }
+    }
+
+    if (match.rule.delay && match.rule.delay > 0) {
+      setTimeout(sendResponse, match.rule.delay)
+    } else {
+      sendResponse()
     }
   }
 

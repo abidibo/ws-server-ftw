@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, useInput, useApp, useStdout, useStdin } from 'ink';
 import { useServerState } from '../hooks/use-server-state.js';
 import { ConnectionList } from './ConnectionList.js';
@@ -12,14 +12,17 @@ export const App = ({ serverManager, onReady }) => {
     const { stdin } = useStdin();
     const { connections, selectedIndex, setSelectedIndex, messages, port, dbContent, setDbContent } = useServerState(serverManager);
     const [focusedPanel, setFocusedPanel] = useState('connections');
+    const [logSearchMode, setLogSearchMode] = useState(false);
     const selectedConnection = connections[selectedIndex];
     useEffect(() => {
         onReady?.();
     }, []);
     // Global quit handler
+    const logSearchModeRef = useRef(logSearchMode);
+    logSearchModeRef.current = logSearchMode;
     useEffect(() => {
         const handler = (data) => {
-            if (data === 'q') {
+            if (data === 'q' && !logSearchModeRef.current) {
                 serverManager.stop();
                 exit();
             }
@@ -38,7 +41,7 @@ export const App = ({ serverManager, onReady }) => {
     // Global keyboard navigation for Tab key only
     // Note: Arrow keys are handled by individual focused components
     useInput((input, key) => {
-        if (key.tab) {
+        if (key.tab && !logSearchModeRef.current) {
             const panels = ['connections', 'command', 'db', 'log'];
             const currentIndex = panels.indexOf(focusedPanel);
             const nextIndex = (currentIndex + 1) % panels.length;
@@ -55,6 +58,9 @@ export const App = ({ serverManager, onReady }) => {
     const handleCloseConnection = (connId) => {
         serverManager.closeConnection(connId);
     };
+    const handleRefreshDb = () => {
+        setDbContent(serverManager.getDbContent());
+    };
     return (React.createElement(Box, { flexDirection: "column", flexGrow: 1 },
         React.createElement(StatusBar, { port: port, connectionCount: connections.length, selectedConnection: selectedConnection?.id, focusedPanel: focusedPanel }),
         React.createElement(Box, { flexDirection: "row", flexGrow: 1 },
@@ -62,8 +68,8 @@ export const App = ({ serverManager, onReady }) => {
                 React.createElement(ConnectionList, { connections: connections, selectedIndex: selectedIndex, setSelectedIndex: setSelectedIndex, isFocused: focusedPanel === 'connections', onCloseConnection: handleCloseConnection }),
                 React.createElement(CommandInput, { onCommand: handleCommand, onDbCommand: handleDbCommand, selectedConnection: selectedConnection?.id, isFocused: focusedPanel === 'command' })),
             React.createElement(Box, { flexDirection: "column", width: "45%" },
-                React.createElement(DbEditor, { dbContent: dbContent, maxHeight: rightPanelHeight, isFocused: focusedPanel === 'db' })),
+                React.createElement(DbEditor, { dbContent: dbContent, maxHeight: rightPanelHeight, isFocused: focusedPanel === 'db', onRefresh: handleRefreshDb })),
             React.createElement(Box, { flexDirection: "column", width: "25%" },
-                React.createElement(MessageLog, { messages: messages, maxHeight: rightPanelHeight, isFocused: focusedPanel === 'log' })))));
+                React.createElement(MessageLog, { messages: messages, maxHeight: rightPanelHeight, isFocused: focusedPanel === 'log', onSearchModeChange: setLogSearchMode })))));
 };
 //# sourceMappingURL=App.js.map

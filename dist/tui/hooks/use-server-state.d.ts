@@ -1,7 +1,7 @@
 import { ServerManager } from '../../server-manager.js';
 import { Connection } from '../../connection-registry.js';
 export interface LogMessage {
-    type: 'success' | 'error' | 'info';
+    type: 'success' | 'error' | 'info' | 'autoResponse';
     text: string;
     timestamp: Date;
 }

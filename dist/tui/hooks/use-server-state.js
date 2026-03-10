@@ -40,6 +40,12 @@ export function useServerState(serverManager) {
         const onConnectionMessage = (connId, message) => {
             addMessage('info', `Received from ${connId}: ${message}`);
         };
+        // Auto-response sent
+        const onAutoResponseSent = (connId, ruleName, data) => {
+            const dataStr = JSON.stringify(data);
+            const preview = dataStr.length > 100 ? dataStr.substring(0, 100) + '...' : dataStr;
+            addMessage('autoResponse', `Auto [${ruleName}] to ${connId}: ${preview}`);
+        };
         // Error
         const onError = (connId, error) => {
             addMessage('error', `Error on ${connId}: ${error.message}`);
@@ -50,6 +56,7 @@ export function useServerState(serverManager) {
         serverManager.on('connection:close', onConnectionClose);
         serverManager.on('data:sent', onDataSent);
         serverManager.on('connection:message', onConnectionMessage);
+        serverManager.on('auto-response:sent', onAutoResponseSent);
         serverManager.on('error', onError);
         // Cleanup
         return () => {
@@ -58,6 +65,7 @@ export function useServerState(serverManager) {
             serverManager.removeListener('connection:close', onConnectionClose);
             serverManager.removeListener('data:sent', onDataSent);
             serverManager.removeListener('connection:message', onConnectionMessage);
+            serverManager.removeListener('auto-response:sent', onAutoResponseSent);
             serverManager.removeListener('error', onError);
         };
     }, [serverManager]);

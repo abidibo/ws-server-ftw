@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Box, useInput, useApp, useStdout, useStdin } from 'ink'
 import { ServerManager } from '../../server-manager.js'
 import { useServerState } from '../hooks/use-server-state.js'
@@ -22,6 +22,7 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
   const { stdin } = useStdin()
   const { connections, selectedIndex, setSelectedIndex, messages, port, dbContent, setDbContent } = useServerState(serverManager)
   const [focusedPanel, setFocusedPanel] = useState<FocusedPanel>('connections')
+  const [logSearchMode, setLogSearchMode] = useState(false)
 
   const selectedConnection = connections[selectedIndex]
 
@@ -30,9 +31,12 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
   }, [])
 
   // Global quit handler
+  const logSearchModeRef = useRef(logSearchMode)
+  logSearchModeRef.current = logSearchMode
+
   useEffect(() => {
     const handler = (data: string) => {
-      if (data === 'q') {
+      if (data === 'q' && !logSearchModeRef.current) {
         serverManager.stop()
         exit()
       }
@@ -54,7 +58,7 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
   // Global keyboard navigation for Tab key only
   // Note: Arrow keys are handled by individual focused components
   useInput((input: string, key: any) => {
-    if (key.tab) {
+    if (key.tab && !logSearchModeRef.current) {
       const panels: FocusedPanel[] = ['connections', 'command', 'db', 'log']
       const currentIndex = panels.indexOf(focusedPanel)
       const nextIndex = (currentIndex + 1) % panels.length
@@ -110,7 +114,7 @@ export const App: React.FC<AppProps> = ({ serverManager, onReady }) => {
         </Box>
 
         <Box flexDirection="column" width="25%">
-          <MessageLog messages={messages} maxHeight={rightPanelHeight} isFocused={focusedPanel === 'log'} />
+          <MessageLog messages={messages} maxHeight={rightPanelHeight} isFocused={focusedPanel === 'log'} onSearchModeChange={setLogSearchMode} />
         </Box>
       </Box>
     </Box>
