@@ -309,7 +309,7 @@ Contributions are welcome! This project was developed to simplify WebSocket mock
 
 1. Clone the repository
 2. Install dependencies: `npm install`
-3. Run in development mode: `npm run dev`
+3. Run in development mode: `npm run dev -- -i db.json -p 9704`
 4. Build: `npm run build`
 5. Run tests: `npm run test`
 
